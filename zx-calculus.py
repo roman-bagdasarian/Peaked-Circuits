@@ -1,25 +1,43 @@
-import pyzx as zx
+import argparse
 from qiskit import QuantumCircuit, transpile, qasm2
-from qiskit_aer import AerSimulator
+import pyzx as zx
+from helpers.utils import timer
 
 
-quantum_circuit = QuantumCircuit.from_qasm_file("MIT iQuHACK 2026\P10_eternal_mountain.qasm")
+def main():
+    parser = argparse.ArgumentParser(description="ZX-Calculus")
+    parser.add_argument("path", help="Path to .qasm file")
+    args = parser.parse_args()
 
-graph = zx.Circuit.from_qasm(qasm2.dumps(quantum_circuit)).to_graph()
-zx.full_reduce(graph)
+    try:
+        qc = QuantumCircuit.from_qasm_file(args.path)
+        print(f"Original depth: {qc.depth()}, Gates: {dict(qc.count_ops())}")
 
-zx_circuit = QuantumCircuit.from_qasm_str(zx.extract_circuit(graph).to_qasm())
-zx_circuit.measure_all()
+        with timer("ZX-Calculus"):
+            graph = zx.Circuit.from_qasm(qasm2.dumps(qc)).to_graph()
+            zx.full_reduce(graph)
+            zx_circuit = QuantumCircuit.from_qasm_str(
+                zx.extract_circuit(graph).to_qasm()
+            )
 
-transpiled_circuit = transpile(
-    zx_circuit, basis_gates=["u3", "cx"], optimization_level=3
-)
+        with timer("Circuit transpilation"):
+            transpiled_circuit = transpile(
+                zx_circuit, basis_gates=["u3", "cx"], optimization_level=3
+            )
 
-simulator = AerSimulator(
-    method="matrix_product_state", matrix_product_state_max_bond_dimension=128
-)
+        print(
+            f"Optimized depth: {transpiled_circuit.depth()}, Gates: {dict(transpiled_circuit.count_ops())}"
+        )
 
-job_result = simulator.run(transpiled_circuit, shots=1024).result()
-counts = job_result.get_counts()
+        with open("zx-calculus.qasm", "w") as f:
+            qasm2.dump(transpiled_circuit, f)
 
-print(max(counts, key=counts.get))
+    except FileNotFoundError:
+        print(f"Error: File '{args.path}' not found.")
+
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+
+if __name__ == "__main__":
+    main()
