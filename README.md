@@ -10,14 +10,7 @@ Gharibyan, H., Mullath, M. Z., Sherman, N. E., Su, V. P., Tepanyan, H., & Zhang,
 3. Activate the your new environment: `conda activate pc`
 4. Run a sample test: `python sample.py`
 5. Your output should be `1001`
-Enjoy!
-
-# Contributing to this Repo
-First off, thank you for considering contributing to this project!
-
-## How Can I Contribute?
-* Implement class to measure time
-* Implement class to output circuit metadata
+6. Enjoy! Thank you for considering contributing to this project!
 
 # Limitations
 
@@ -26,19 +19,59 @@ First off, thank you for considering contributing to this project!
 `bluequbit_cpu.py` ≤ 34 qubits
 
 ## Accuracy
-`matrix_product_state.py` = Max Bond Dimension trades off probability (hence, time) fpr accuracy
+`matrix_product_state.py` = Max Bond Dimension trades off probability (hence, time) for accuracy
 
-# MIT iQuHACK 2026
+# [Yale Quantum 2025](https://app.bluequbit.io/hackathons/wSvCWg8f38spoLm3)
+
+Ranked #1 among all Yale participants (In-Person and Virtual) at the first-ever Peaked Circuits Hackathon!
+
+| Name | Yale Rank | World Rank | Score | Solved Problems | Time Penalty |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Roman Bagdasarian** | **#1** | #59/1603 | 80 | **3**/6 | 2.21h |
 
 | Problem | Qubits | Peak Bitstring |
 | :--- | :---: | :---: |
-| **`P1_little_peak.qasm`** | 4 | `1001` |
-| **`P2_small_bump.qasm`** | 20 | `11000001000100011000` |
-| **`P3_tiny_ripple.qasm`** | 30 | `001110001111101100001101010001` |
-| **`P4_gentle_mound.qasm`** | 40 | `0110101000010111001100100001010001101101` |
-| **`P5_soft_rise.qasm`** | 50 | `01101000100100001010101011100000010111100011111110` |
-| **`P6_low_hill.qasm`** | 60 | `101000110000100000100111100010101011101001000101100010001000` |
-| **`P7_rolling_ridge.qasm`** | 46 | `0110001011111111110011110001000010011011100000` |
-| **`P8_bold_peak.qasm`** | 72 | `101111100101111000100010110001011101110011100011110000100111010010001010` |
-| **`P9_grand_summit.qasm`** | 56 | **NOT SOLVED** |
-| **`P10_eternal_mountain.qasm`** | 56 | `00111111100000110001010111111001011101100001100100010010` |
+| **Problem 1: Little Peak 🌱** | 4 | `1001` |
+| **Problem 2: Swift Rise 🌊** | 28 | `` |
+| **Problem 3: Sharp Peak 🏜** | 44 | `` |
+| **Problem 4: Golden Mountain ⛰️** | 48 | `` |
+| **Problem 5: Granite Summit 🗻** | 44 | `` |
+| **Problem 6: Titan Pinnacle 🌋** | 62 | `` |
+
+# [MIT iQuHACK 2026](https://app.bluequbit.io/hackathons/QlLEye0ap4l4zXX2)
+
+| Name | World Rank | Score | Solved Problems | Time Penalty |
+| :--- | :---: | :---: | :---: | :---: |
+| **Roman Bagdasarian** | **#63**/550 | 230 | **6**/10 | 25.21h |
+
+| Problem | Qubits | Peak Bitstring |
+| :--- | :---: | :---: |
+| **Problem 1: Little Dimple 🫧** | 4 | `1001` |
+| **Problem 2: Small Bump 🪨** | 12 | `00011000100010000011` |
+| **Problem 3: Tiny Ripple 🌊** | 30 | `100010101100001101111100011100` |
+| **Problem 4: Gentle Mound 🌿** | 40 | `0110101000010111001100100001010001101101` |
+| **Problem 5: Soft Rise 🌄** | 50 | `01101000100100001010101011100000010111100011111110` |
+| **Problem 6: Low Hill ⛰️** | 60 | `000100010001101000100101110101010001111001000001000011000101` |
+| **Problem 7: Rolling Ridge 🏞️** | 42 | `0110001011111111110011110001000010011011100000` |
+| **Problem 8: Bold Peak 🏜** | 58 | `101111100101111000100010110001011101110011100011110000100111010010001010` |
+| **Problem 9: Grand Summit 🏔️** | 69 | |
+| **Problem 10: Eternal Mountain 🗻** | 56 | `00111111100000110001010111111001011101100001100100010010` |
+
+# [Yale Quantum 2026](https://app.bluequbit.io/hackathons/wSvCWg8f38spoXX3)
+
+| Team Name | World Rank | Score | Solved Problems | Time Penalty |
+| :--- | :---: | :---: | :---: | :---: |
+| **MerQury** | **#13**/550 | 450 | **9**/10 | 28.36h |
+
+| Problem | Qubits | Peak Bitstring |
+| :--- | :---: | :---: |
+| **Problem 1: Little Dimple 🫧** | 4 | `1001` |
+| **Problem 2: Small Bump 🪨** | 12 | `111010100110` |
+| **Problem 3: Tiny Ripple 🌊** | 30 | `001111100001011001010111011000` |
+| **Problem 4: Gentle Mound 🌿** | 40 | `0000111011000010110110011000010111001000` |
+| **Problem 5: Soft Rise 🌄** | 50 | `00011011001101000001010110110100101010011000011001` |
+| **Problem 6: Low Hill ⛰️** | 60 | `101100101001010001110111100101100011101011100000000000110111` |
+| **Problem 7: Rolling Ridge 🏞️** | 42 | `001000110101110100110001000100001010101101` |
+| **Problem 8: Bold Peak 🏜** | 58 | `0000000100000100110100010101001010001011111100100011001110` |
+| **Problem 9: Grand Summit 🏔️** | 69 | `110001110111010101111000000010000111111111110011111111100101011100010` |
+| **Problem 10: Eternal Mountain 🗻** | 56 | |
