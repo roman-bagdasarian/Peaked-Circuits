@@ -2,13 +2,13 @@
 
 **Peaked circuits** are pre-constructed quantum circuits with a non-uniform measurement distribution. They are designed so that one specific bitstring has significantly higher probability (for example, `O(1)`) than typical alternatives with exponentially small probability.
 
-They were introduced by [Scott Aaronson][1] as a path toward verifiable quantum advantage. Well-designed peaked circuits can look random, similar to circuits used in quantum supremacy-style benchmarks, but they are far easier to verify: run the circuit and check whether the hidden peak bitstring appears at the expected elevated rate.
+They were introduced by [Scott Aaronson](https://doi.org/10.48550/arXiv.2404.14493) as a path toward verifiable quantum advantage. Well-designed peaked circuits can look random, similar to circuits used in quantum supremacy-style benchmarks, but they are far easier to verify: run the circuit and check whether the hidden peak bitstring appears at the expected elevated rate.
 
-## History
+## History of Developments
 
 - April 2024: Scott Aaronson and Yuxuan Zhang introduced peaked circuits as a benchmark class for quantum computers.
 - April 2025: The first Peaked Circuits Hackathon took place at Yale.
-- January 2026: BlueQubit introduced HQAP circuits ([Heuristic Quantum Advantage with Peaked Circuits][2]).
+- January 2026: BlueQubit introduced HQAP circuits ([Heuristic Quantum Advantage with Peaked Circuits](https://doi.org/10.48550/arXiv.2510.25838)).
 
 ## How Peaked Circuits Work
 Peaked circuits are expressed in OpenQASM ([`.qasm` format](https://en.wikipedia.org/wiki/OpenQASM)). Each circuit prepares a quantum state with one hidden bitstring that is intentionally more likely to be measured.
@@ -77,11 +77,11 @@ python characteristics.py data\Yale_Quantum_2025\P1_little_peak.qasm
 
 ### Preprocessing Methods
 
-Preprocess circuits to lower complexity (for example, reducing gate count and interconnectivity).
+Preprocess circuits to lower complexity (for example, reducing gate count and interconnectivity). In the order of simplicity:
 
-- zx-calculus
-- separation
-- transpilation
+1. transpilation
+2. separation
+3. zx-calculus
 
 ```bash
 python zx-calculus.py data\Yale_Quantum_2025\P1_little_peak.qasm
@@ -101,15 +101,23 @@ python statevector.py --method matrix_product_state --bond_dim 64 data\Yale_Quan
 - bluequbit_cpu
 	- Runs circuits through the BlueQubit API.
 	- Supports up to 34 qubits.
-	- Use --device cpu (Google statevector backend) or --device mpc.cpu.
+	- Use --device cpu (Google statevector backend) or --device mps.cpu.
 
 ```bash
-python bluequbit_cpu.py --id <YOUR_API_KEY> --device mpc.cpu data\Yale_Quantum_2025\P1_little_peak.qasm
+python bluequbit_cpu.py --id <YOUR_API_KEY> --device mps.cpu --bond_dim 64 data\Yale_Quantum_2025\P1_little_peak.qasm
 ```
 
 ## Data
 
 For many BlueQubit-provided challenge circuits, the correct peak bitstring is unknown in advance, so submissions cannot always be directly verified offline.
+
+## Solution Notes
+
+Detailed per-problem notes are available in:
+
+- [solutions/Yale_Quantum_2025.md](solutions/Yale_Quantum_2025.md)
+- [solutions/MIT_iQuHACK_2026.md](solutions/MIT_iQuHACK_2026.md)
+- [solutions/Yale_Quantum_2026.md](solutions/Yale_Quantum_2026.md)
 
 ## [Yale Quantum 2025](https://app.bluequbit.io/hackathons/wSvCWg8f38spoLm3)
 
@@ -122,9 +130,9 @@ Ranked #1 among all Yale participants (in-person and virtual) at the first Peake
 | Problem | Qubits | Peak Bitstring |
 | :--- | :---: | :---: |
 | **Problem 1: Little Peak 🌱** | 4 | `1001` |
-| **Problem 2: Swift Rise 🌊** | 28 | |
-| **Problem 3: Sharp Peak 🏜** | 44 | |
-| **Problem 4: Golden Mountain ⛰️** | 48 | |
+| **Problem 2: Swift Rise 🌊** | 28 | `1100101101100011011000011100` |
+| **Problem 3: Sharp Peak 🏜** | 44 | `01011000100010110011111000001010101010110001` |
+| **Problem 4: Golden Mountain ⛰️** | 48 | `011111100001010011111101011000000100001000011110` |
 | **Problem 5: Granite Summit 🗻** | 44 | |
 | **Problem 6: Titan Pinnacle 🌋** | 62 | |
 
@@ -170,12 +178,14 @@ Ranked #1 among all Yale participants (in-person and virtual) at the first Peake
 
 Credit to:
 
-1. [BlueQubit](https://www.bluequbit.io/) for running these hackathons and developing peaked circuits.
+1. [BlueQubit](https://www.bluequbit.io/) for developing peaked circuits and running these hackathons.
 2. BlueQubit Co-Founder and CTO [Hayk Tepanyan](https://www.linkedin.com/in/tehayk/) for introducing me to quantum computing in August 2024 through his [talk](https://www.youtube.com/live/-JpAm3lfQtI?si=ZfxVLRx5XswsCwkA&t=2770) in Yerevan, Armenia.
 3. [Tan Jun Liang](https://github.com/poig), whose work heavily influenced this repository.
 
 ## References
+[1] Aaronson, S., & Zhang, Y. (2024). On verifiable quantum advantage with peaked circuit sampling (arXiv:2404.14493). [https://doi.org/10.48550/arXiv.2404.14493](https://doi.org/10.48550/arXiv.2404.14493)
 
-[1]: https://doi.org/10.48550/arXiv.2404.14493 "Aaronson, S., & Zhang, Y. (2024). On verifiable quantum advantage with peaked circuit sampling (arXiv:2404.14493). arXiv."
+[2] Gharibyan, H., Mullath, M. Z., Sherman, N. E., Su, V. P., Tepanyan, H., & Zhang, Y. (2025). Heuristic Quantum Advantage with Peaked Circuits (arXiv:2510.25838). [https://doi.org/10.48550/arXiv.2510.25838](https://doi.org/10.48550/arXiv.2510.25838)
 
-[2]: https://doi.org/10.48550/arXiv.2510.25838 "Gharibyan, H., Mullath, M. Z., Sherman, N. E., Su, V. P., Tepanyan, H., & Zhang, Y. (2025). Heuristic Quantum Advantage with Peaked Circuits (arXiv:2510.25838). arXiv."
+## To-do list
+1. Implement saving the terminal results.
