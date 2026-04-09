@@ -1,9 +1,10 @@
 import argparse
+import sys
 from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
 import networkx as nx
+from helpers.tee import Tee
 from helpers.utils import timer
-
 
 def main():
     parser = argparse.ArgumentParser(description="Separation into two circuits")
@@ -11,6 +12,9 @@ def main():
     args = parser.parse_args()
 
     try:
+        original_stdout = sys.stdout
+        sys.stdout = Tee(f"{args.path}.txt")
+
         qc = QuantumCircuit.from_qasm_file(args.path)
         num_qubits = qc.num_qubits
 
@@ -77,6 +81,12 @@ def main():
 
     except Exception as e:
         print(f"Error occurred: {e}")
+
+    finally:
+        if isinstance(sys.stdout, Tee):
+            sys.stdout.log.close()
+            sys.stdout = original_stdout
+        sys.stdout.close()
 
 
 if __name__ == "__main__":

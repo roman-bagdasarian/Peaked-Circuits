@@ -1,6 +1,8 @@
 import argparse
+import sys
 from qiskit import QuantumCircuit, transpile, qasm2
 import pyzx as zx
+from helpers.tee import Tee
 from helpers.utils import timer
 
 
@@ -10,6 +12,9 @@ def main():
     args = parser.parse_args()
 
     try:
+        original_stdout = sys.stdout
+        sys.stdout = Tee(f"{args.path}_zx-calculus.txt")
+
         qc = QuantumCircuit.from_qasm_file(args.path)
         print(f"Original depth: {qc.depth()}, Gates: {dict(qc.count_ops())}")
 
@@ -29,7 +34,7 @@ def main():
             f"Optimized depth: {transpiled_circuit.depth()}, Gates: {dict(transpiled_circuit.count_ops())}"
         )
 
-        with open("zx-calculus.qasm", "w") as f:
+        with open(f"{args.path}_zx-calculus.qasm", "w") as f:
             qasm2.dump(transpiled_circuit, f)
 
     except FileNotFoundError:
@@ -37,6 +42,12 @@ def main():
 
     except Exception as e:
         print(f"Error occurred: {e}")
+
+    finally:
+        if isinstance(sys.stdout, Tee):
+            sys.stdout.log.close()
+            sys.stdout = original_stdout
+        sys.stdout.close()
 
 
 if __name__ == "__main__":

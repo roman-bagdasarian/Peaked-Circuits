@@ -1,6 +1,7 @@
 import argparse
+import sys
 from qiskit import QuantumCircuit
-
+from helpers.tee import Tee
 
 def main():
     parser = argparse.ArgumentParser(description="Analyse circuit")
@@ -8,7 +9,10 @@ def main():
     args = parser.parse_args()
 
     try:
-        qc = QuantumCircuit.from_qasm_file(args.path)
+        original_stdout = sys.stdout
+        sys.stdout = Tee(f"{args.path}.txt")
+
+        qc = QuantumCircuit.from_qasm_file(args.path)        
 
         stats = {
             "qubits": qc.num_qubits,
@@ -24,6 +28,12 @@ def main():
 
     except Exception as e:
         print(f"Error occurred: {e}")
+
+    finally:
+        if isinstance(sys.stdout, Tee):
+            sys.stdout.log.close()
+            sys.stdout = original_stdout
+        sys.stdout.close()
 
 
 if __name__ == "__main__":

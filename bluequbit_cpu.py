@@ -1,6 +1,8 @@
 import argparse
-import bluequbit
+import sys
 from qiskit import QuantumCircuit
+import bluequbit
+from helpers.tee import Tee
 
 
 def main():
@@ -21,6 +23,9 @@ def main():
     args = parser.parse_args()
 
     try:
+        original_stdout = sys.stdout
+        sys.stdout = Tee(f"{args.path}.txt")
+
         bq = bluequbit.init(args.id)
 
         quantum_circuit = QuantumCircuit.from_qasm_file(args.path)
@@ -50,6 +55,12 @@ def main():
 
     except Exception as e:
         print(f"Error occurred: {e}")
+
+    finally:
+        if isinstance(sys.stdout, Tee):
+            sys.stdout.log.close()
+            sys.stdout = original_stdout
+        sys.stdout.close()
 
 
 if __name__ == "__main__":
