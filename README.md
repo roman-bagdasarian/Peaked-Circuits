@@ -113,7 +113,7 @@ For many BlueQubit-provided challenge circuits, the correct peak bitstring is un
 
 ## Solution Notes
 
-Detailed per-problem notes are available in:
+Per-problem notes are available in:
 
 - [solutions/Yale_Quantum_2025.md](solutions/Yale_Quantum_2025.md)
 - [solutions/MIT_iQuHACK_2026.md](solutions/MIT_iQuHACK_2026.md)
@@ -186,6 +186,3 @@ Credit to:
 [1] Aaronson, S., & Zhang, Y. (2024). On verifiable quantum advantage with peaked circuit sampling (arXiv:2404.14493). [https://doi.org/10.48550/arXiv.2404.14493](https://doi.org/10.48550/arXiv.2404.14493)
 
 [2] Gharibyan, H., Mullath, M. Z., Sherman, N. E., Su, V. P., Tepanyan, H., & Zhang, Y. (2025). Heuristic Quantum Advantage with Peaked Circuits (arXiv:2510.25838). [https://doi.org/10.48550/arXiv.2510.25838](https://doi.org/10.48550/arXiv.2510.25838)
-
-## To-do list
-1. Implement saving the terminal results.
