@@ -1,23 +1,25 @@
 # Peaked Circuits
 
-**Peaked circuits** are pre-constructed quantum circuits with a non-uniform distribution of measurement outcomes. They are designed in a way that one particular bitstring has a higher probability than others, e.g. ```O(1)``` as opposed to exponentially small amplitude.
+**Peaked circuits** are pre-constructed quantum circuits with a non-uniform measurement distribution. They are designed so that one specific bitstring has significantly higher probability (for example, `O(1)`) than typical alternatives with exponentially small probability.
 
-They were introduced by [Scott Aaronson][1] as a way to achieve verifiable quantum advantage. Carefully crafted peaked circuits look like random circuits  - like the one used by Google in their benchmark that would take supercomputers septillion```=10²⁵``` years to replicate. However, unlike random circuits - peaked circuits are much easier to verify: all you need to do is to run them on a quantum computer and verify you get the correct hidden bitstring!
+They were introduced by [Scott Aaronson][1] as a path toward verifiable quantum advantage. Well-designed peaked circuits can look random, similar to circuits used in quantum supremacy-style benchmarks, but they are far easier to verify: run the circuit and check whether the hidden peak bitstring appears at the expected elevated rate.
 
-## History of Development
+## History
 
-- In April 2024, Scott Aaronson and Yuxuan Zhang first introduced Peaked Circuits as a "benchmark" for quantum computers.
-- In April 2025, the first ever Peaked Circuits Hackathon took place at Yale!
-- In January 2026, BlueQubit first introduced HQAP Circuits ([Heuristic Quantum Advantage with Peaked Circuits][2]).
+- April 2024: Scott Aaronson and Yuxuan Zhang introduced peaked circuits as a benchmark class for quantum computers.
+- April 2025: The first Peaked Circuits Hackathon took place at Yale.
+- January 2026: BlueQubit introduced HQAP circuits ([Heuristic Quantum Advantage with Peaked Circuits][2]).
 
-## Technicalities
-Peaked Circuits are special quantum circuits in ```.qasm``` [format](https://en.wikipedia.org/wiki/OpenQASM) where each circuit sets up a specific quantum state. Hidden within that state is a single bitstring that appears with high probability.
+## How Peaked Circuits Work
+Peaked circuits are expressed in OpenQASM ([`.qasm` format](https://en.wikipedia.org/wiki/OpenQASM)). Each circuit prepares a quantum state with one hidden bitstring that is intentionally more likely to be measured.
 
-<img width="1031" alt="image" src="Screenshot_2025-02-28_at_7.34.59_PM.webp" />
+<img width="1031" alt="Measurement distribution with a dominant peak" src="Screenshot_2025-02-28_at_7.34.59_PM.webp" />
 
-In the example above, ```0110``` is the peak bitstring as it has comparatively much higher probability  to be measured than all the other bitstrings. And below you can find the .qasm file that prepared this state:
+In the example above, `0110` is the peak bitstring because it has much higher measurement probability than the other outcomes.
 
-```
+Example circuit:
+
+```qasm
 OPENQASM 2.0;
 include "qelib1.inc";
 qreg q[4];
@@ -29,33 +31,89 @@ ry(0.8*pi) q[2];
 ry(0.8*pi) q[3];
 ```
 
-# Development Setup
-1. Clone this repository: `gh repo clone roman-bagdasarian/Peaked-Circuits`
-2. Create a conda environment: `conda env create -f environment.yml`
-3. Activate the your new environment: `conda activate pc`
-4. Run a sample test: `python sample.py`
-5. Your output should be `1001`
-6. Enjoy! Thank you for considering contributing to this project!
+## Development Setup
 
-# Preprocessing and Simulating
-In general, all the scripts are designed to be run from command line. The default structure is:
-`python <METHOD_NAME>.py <PATH_TO_QASM>`
+1. Clone the repository.
 
-1. Access the parameters of your circuits with the METHOD_NAME = `characteristics`
-2. Preprosess your circuits. There are three main ways to do so:
-- `zx-calculus`
-- `separation`
-- `transpilation`
-3. Decide on the method to simulate your circuit:
-- `statevector` - run your circuits locally. ≤ 29 qubits for --method = `statevector` and unlimited for --method = `matrix_product_state` (Max Bond Dimension trades off probability (hence, time) for accuracy)
-- `bluequbit_cpu` - run your circuits via BlueQubit's API (≤ 34 qubits). -- = API --device = `cpu` (Google's most powerful statevector) and --device = `mpc.cpu`
+```bash
+gh repo clone roman-bagdasarian/Peaked-Circuits
+```
 
-# Data
+2. Create the Conda environment.
 
-For most of the circuits generously provided by BlueQubit, there is no way to verify your solution (a bitstring in little-endian convention, usually)
-# [Yale Quantum 2025](https://app.bluequbit.io/hackathons/wSvCWg8f38spoLm3)
+```bash
+conda env create -f environment.yml
+```
 
-Ranked #1 among all Yale participants (In-Person and Virtual) at the first-ever Peaked Circuits Hackathon!
+3. Activate the environment.
+
+```bash
+conda activate pc
+```
+
+4. Run the sample script.
+
+```bash
+python sample.py
+```
+
+5. Expected output: 1001
+
+## Preprocessing and Simulation
+
+Most scripts use the following command pattern:
+
+```bash
+python <SCRIPT_NAME>.py <PATH_TO_QASM>
+```
+
+### Circuit Characteristics
+
+Inspect circuit parameters.
+
+```bash
+python characteristics.py data\Yale_Quantum_2025\P1_little_peak.qasm
+```
+
+### Preprocessing Methods
+
+Preprocess circuits to lower complexity (for example, reducing gate count and interconnectivity).
+
+- zx-calculus
+- separation
+- transpilation
+
+```bash
+python zx-calculus.py data\Yale_Quantum_2025\P1_little_peak.qasm
+```
+
+### Simulation Methods
+
+- statevector
+	- Runs circuits locally.
+	- Up to 29 qubits with --method statevector.
+	- For larger circuits, use --method matrix_product_state (accuracy/time depends on max bond dimension).
+
+```bash
+python statevector.py --method matrix_product_state --bond_dim 64 data\Yale_Quantum_2025\P1_little_peak.qasm
+```
+
+- bluequbit_cpu
+	- Runs circuits through the BlueQubit API.
+	- Supports up to 34 qubits.
+	- Use --device cpu (Google statevector backend) or --device mpc.cpu.
+
+```bash
+python bluequbit_cpu.py --id <YOUR_API_KEY> --device mpc.cpu data\Yale_Quantum_2025\P1_little_peak.qasm
+```
+
+## Data
+
+For many BlueQubit-provided challenge circuits, the correct peak bitstring is unknown in advance, so submissions cannot always be directly verified offline.
+
+## [Yale Quantum 2025](https://app.bluequbit.io/hackathons/wSvCWg8f38spoLm3)
+
+Ranked #1 among all Yale participants (in-person and virtual) at the first Peaked Circuits Hackathon.
 
 | Name | Yale Rank | World Rank | Score | Solved Problems | Time Penalty |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -70,7 +128,7 @@ Ranked #1 among all Yale participants (In-Person and Virtual) at the first-ever 
 | **Problem 5: Granite Summit 🗻** | 44 | |
 | **Problem 6: Titan Pinnacle 🌋** | 62 | |
 
-# [MIT iQuHACK 2026](https://app.bluequbit.io/hackathons/QlLEye0ap4l4zXX2)
+## [MIT iQuHACK 2026](https://app.bluequbit.io/hackathons/QlLEye0ap4l4zXX2)
 
 | Name | World Rank | Score | Solved Problems | Time Penalty |
 | :--- | :---: | :---: | :---: | :---: |
@@ -89,7 +147,7 @@ Ranked #1 among all Yale participants (In-Person and Virtual) at the first-ever 
 | **Problem 9: Grand Summit 🏔️** | 69 | |
 | **Problem 10: Eternal Mountain 🗻** | 56 | `00111111100000110001010111111001011101100001100100010010` |
 
-# [Yale Quantum 2026](https://app.bluequbit.io/hackathons/wSvCWg8f38spoXX3)
+## [Yale Quantum 2026](https://app.bluequbit.io/hackathons/wSvCWg8f38spoXX3)
 
 | Team Name | World Rank | Score | Solved Problems | Time Penalty |
 | :--- | :---: | :---: | :---: | :---: |
@@ -108,11 +166,16 @@ Ranked #1 among all Yale participants (In-Person and Virtual) at the first-ever 
 | **Problem 9: Grand Summit 🏔️** | 69 | `110001110111010101111000000010000111111111110011111111100101011100010` |
 | **Problem 10: Eternal Mountain 🗻** | 56 | |
 
-# Acknowledgements
+## Acknowledgements
 
-I would like to give credit to [BlueQubit's](https://www.bluequbit.io/) CEO [Hayk Tepanyan](https://www.linkedin.com/in/tehayk/) for introducing me to Quantum Computing in August 2024 at his [talk](https://www.youtube.com/live/-JpAm3lfQtI?si=ZfxVLRx5XswsCwkA&t=2770) in Yerevan, Armenia and to [Tan Jun Liang](https://github.com/poig).
+Credit to:
 
-# References
+1. [BlueQubit](https://www.bluequbit.io/) for running these hackathons and developing peaked circuits.
+2. BlueQubit Co-Founder and CTO [Hayk Tepanyan](https://www.linkedin.com/in/tehayk/) for introducing me to quantum computing in August 2024 through his [talk](https://www.youtube.com/live/-JpAm3lfQtI?si=ZfxVLRx5XswsCwkA&t=2770) in Yerevan, Armenia.
+3. [Tan Jun Liang](https://github.com/poig), whose work heavily influenced this repository.
+
+## References
+
 [1]: https://doi.org/10.48550/arXiv.2404.14493 "Aaronson, S., & Zhang, Y. (2024). On verifiable quantum advantage with peaked circuit sampling (arXiv:2404.14493). arXiv."
 
 [2]: https://doi.org/10.48550/arXiv.2510.25838 "Gharibyan, H., Mullath, M. Z., Sherman, N. E., Su, V. P., Tepanyan, H., & Zhang, Y. (2025). Heuristic Quantum Advantage with Peaked Circuits (arXiv:2510.25838). arXiv."
