@@ -1,0 +1,5 @@
+Using simulator method: statevector
+Circuit simulation took: 42.191219 seconds
+Little-Endian: 1100101101100011011000011100
+Big-Endian   : 0011100001101100011011010011
+Probability  : 0.326171875

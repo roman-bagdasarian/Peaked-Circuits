@@ -1,0 +1,5 @@
+Using simulator method: matrix_product_state with bond dimension 128
+Circuit simulation took: 120.726977 seconds
+Little-Endian: 011111100001010011111101011000000100001000011110
+Big-Endian   : 011110000100001000000110101111110010100001111110
+Probability  : 0.0029296875

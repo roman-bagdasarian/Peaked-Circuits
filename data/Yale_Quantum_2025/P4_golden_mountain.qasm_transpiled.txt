@@ -1,0 +1,5 @@
+Original depth: 437, Gates: {'u3': 10240, 'cz': 5096}
+Degree: 1, Optimized depth: 437, Gates: {'u3': 10240, 'cx': 5096}
+Degree: 0.99, Optimized depth: 397, Gates: {'u3': 6879, 'cx': 3417}
+Degree: 0.95, Optimized depth: 143, Gates: {'u3': 854, 'cx': 406}
+Enter the degree you wish to save (e.g., 0.95) or press Enter to skip: 
