@@ -1,0 +1,8 @@
+Loaded circuit: 50 qubits
+PassManager optimization took: 0.013374 seconds
+PassManager: 1029 -> 1029 gates (0.0% reduction), depth 29 -> 29
+Running MPS marginal attack (bond_dim=128, 50 observables)...
+MPS simulation took: 204.441220 seconds
+Little-Endian: 00011011001101000001010110110100101010011000011001
+Big-Endian   : 10011000011001010100101101101010000010110011011000
+Min|<Z>|=0.1262, Mean|<Z>|=0.5752, Weak=0/50
