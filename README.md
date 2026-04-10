@@ -98,6 +98,16 @@ python zx-calculus.py data\Yale_Quantum_2025\P1_little_peak.qasm
 python statevector.py --method matrix_product_state --bond_dim 64 data\Yale_Quantum_2025\P1_little_peak.qasm
 ```
 
+- marginal_attack
+	- MPS-based marginal attack using single-qubit Z expectation values.
+	- Determines each bit from the sign of `<Z_i>`: negative means `1`, positive means `0`.
+	- Runs a single MPS simulation with all Z observables, making it efficient for large circuits.
+	- Includes Qiskit PassManager optimization before simulation.
+
+```bash
+python marginal_attack.py --bond_dim 128 data\Yale_Quantum_2026\P5_soft_rise.qasm
+```
+
 - bluequbit_cpu
 	- Runs circuits through the BlueQubit API.
 	- Supports up to 34 qubits.
